@@ -6,6 +6,9 @@ import Validation from "../../Component/Validation";
 import { toast } from "react-toastify";
 import { notifySuccess } from "../../Component/ToastNotification";
 import useFormState from "../../Component/useFormState";
+import FetchBlock from "../../Component/FetchBlock";
+import FetchFlat from "../../Component/FetchFlat";
+import FetchBlk from "../../Component/FetchBlk";
 
 export default function MaintenanceCreation() {
   const { state: maintenance, setState: setMaintenance } =
@@ -23,10 +26,12 @@ export default function MaintenanceCreation() {
   const { data: flatsData = [] } = useApi("flat");
   const { data: statusData = [] } = useApi("status");
   const { data: catData = [] } = useApi("category");
-
+  // const { blockName } = FetchBlk((blockId = editData?.blockName));
+  // console.log("blockName", blockName);
   // ✅ Pre-fill if editing
   useEffect(() => {
     if (editData) {
+      console.log("editData", editData);
       setMaintenance({ ...editData });
     }
   }, [editData]);
@@ -41,19 +46,22 @@ export default function MaintenanceCreation() {
 
   // ✅ Auto-fill Block + Flat when Resident changes
   const handleResidentChange = (residentId) => {
-    const selectedResident = residentData.filter(
+    const selectedResident = residentData.find(
       (r) => r.residentId === Number(residentId)
     );
-    console.log("selectedResident", selectedResident);
-    console.log("blockId", selectedResident[0].blockId);
+
+    if (!selectedResident) return;
+
     setMaintenance((prev) => ({
       ...prev,
       residentId: Number(residentId),
-      blockId: selectedResident[0]?.blockId,
-      flatId: selectedResident[0]?.flatId,
+      block: selectedResident.blockId,
+      flat: selectedResident.flatId,
     }));
   };
 
+  console.log("maintenance", maintenance);
+  console.log("flatsData", flatsData);
   // ✅ Validation
   const validate = () => {
     const err = Validation("maintenance", maintenance);
@@ -109,41 +117,35 @@ export default function MaintenanceCreation() {
           </div>
 
           {/* Block */}
+          {/* <div className="form-group">
+            <label>Block</label>
+            <FetchBlock blockId={maintenance.block} />
+          </div> */}
           <div className="form-group">
             <label>Block</label>
-            <input
-              type="block"
-              value={maintenance.blockId}
-              // onChange={(e) => handleChange("attach", e.target.files[0])}
-            />
-            {/* <select
-              value={maintenance.blockId || ""}
-              onChange={(e) => handleChange("blockId", Number(e.target.value))}
-            >
-              <option value="">Select Block</option>
-              {blockData.map((b) => (
-                <option key={b.blockId} value={b.blockId}>
-                  {b.blockName}
-                </option>
-              ))}
-            </select> */}
-          </div>
+            {editData ? (
+              <select
+                value={maintenance.block || ""}
+                onChange={(e) => handleChange("block", Number(e.target.value))}
+              >
+                <option value="">Select Block</option>
+                {blockData.map((b) => (
+                  <option key={b.blockId} value={b.blockId}>
+                    {b.blockName}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              // 🔹 Read-only when editing
+              // 🔹 Dropdown when creating
 
+              <FetchBlock blockId={maintenance.block} />
+            )}
+          </div>
           {/* Flat */}
           <div className="form-group">
             <label>Flat</label>
-            <input type="text" value={maintenance.flatId} />
-            {/* <select
-              value={maintenance.flatId || ""}
-              onChange={(e) => handleChange("flatId", Number(e.target.value))}
-            >
-              <option value="">Select Flat</option>
-              {flatsData.map((f) => (
-                <option key={f.flatId} value={f.flatId}>
-                  {f.flatName}
-                </option>
-              ))}
-            </select> */}
+            <FetchFlat flatId={maintenance.flat} />
           </div>
 
           {/* Category */}

@@ -51,6 +51,7 @@ export default function ResidentsCreation() {
     setErrors({});
     return true;
   };
+  console.log("state", state);
 
   // ✅ Submit function
   const handleSubmit = async (e) => {
