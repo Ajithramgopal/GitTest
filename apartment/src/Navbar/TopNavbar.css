@@ -1,0 +1,41 @@
+.header {
+  height: 60px;
+  background: #1976d2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.parent {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.child {
+  position: relative; /* Needed for dropdown positioning */
+}
+
+.card {
+  position: absolute; /* Dropdown */
+  top: 100%; /* Show below button */
+  right: 0;
+  background: white;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  min-width: 300px;
+  display: none; /* Hide by default */
+}
+
+.child:hover .card {
+  display: block; /* Show when hovering */
+  align-items: center;
+}

@@ -1,0 +1,92 @@
+.order-table-wrapper {
+  padding: 20px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+.order-table th,
+.order-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.order-table tbody tr:hover {
+  background-color: #e2e5e8a3;
+}
+
+/* Order link */
+.order-link {
+  color: #2563eb;
+  font-weight: 500;
+  cursor: pointer;
+}
+.order-link:hover {
+  text-decoration: underline;
+}
+
+/* Customer cell */
+.customer-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* Status pills */
+.status-pill {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Payment */
+.status-pill.paid {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+.status-pill.refunded {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+.status-pill.cancelled {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Fulfillment */
+.status-pill.fulfilled {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+.status-pill.partially-fulfilled {
+  background-color: #ffedd5;
+  color: #c2410c;
+}
+.status-pill.unfulfilled {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+/* Shipping */
+.shipping.standard {
+  color: #2563eb;
+  font-weight: 500;
+}
+.shipping.express {
+  color: #c2410c;
+  font-weight: 500;
+}
+.shipping.economy {
+  color: #111827;
+  font-weight: 500;
+}

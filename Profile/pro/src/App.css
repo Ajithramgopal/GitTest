@@ -1,0 +1,183 @@
+/* --- Main Container --- */
+.common {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+  background-color: #f0f2f5;
+}
+
+/* --- Sidebar --- */
+.sideBar {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  background-color: #ffffff;
+  height: 100vh;
+  padding: 20px;
+  border-right: 2px solid #4caf50;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sideBar.closed {
+  width: 60px; /* collapsed width */
+  padding: 20px 5px;
+}
+
+/* Sidebar header */
+.nav-h1 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #4caf50;
+}
+
+/* Sidebar items */
+.nav-item {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Arrow for dropdown */
+.arrow {
+  font-size: 18px;
+  margin-left: 8px;
+}
+
+/* Sub-menu */
+.sub-menu {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.sub-menu div {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.sub-menu div:hover {
+  background-color: #81c784;
+  color: #fff;
+}
+
+/* --- Right Side --- */
+.navParent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- Top Nav Bar --- */
+.topNavBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 55px;
+  background-color: #e8f5e9;
+  border-bottom: 2px solid #4caf50;
+}
+
+/* Search box */
+.topNavBarInput input {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Profile/setting/logout */
+.topNavBarChild {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background-color: #c8e6c9;
+}
+
+.topNavBarChild > div:hover {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Hamburger */
+.hamburger {
+  display: block; /* always visible */
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4caf50;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.closed {
+  transform: rotate(90deg);
+}
+
+/* --- Headers --- */
+.headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #a5d6a7;
+  border-bottom: 2px solid #4caf50;
+}
+
+.headers-button button {
+  background-color: #4caf50;
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.headers-button button:hover {
+  background-color: #388e3c;
+}
+
+/* --- Main Section --- */
+.sections {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f2f5;
+  overflow-y: auto;
+}
+
+/* --- Footer --- */
+.footer {
+  text-align: center;
+  padding: 12px;
+  background-color: #e8f5e9;
+  color: #4caf50;
+  border-top: 2px solid #4caf50;
+}
+
+/* --- Responsive Desktop & Tablet --- */
+@media (max-width: 1200px) {
+  .sideBar.closed {
+    width: 0;
+    padding: 0;
+  }
+}
