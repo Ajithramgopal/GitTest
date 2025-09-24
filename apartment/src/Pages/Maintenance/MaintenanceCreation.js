@@ -8,7 +8,7 @@ import { notifySuccess } from "../../Component/ToastNotification";
 import useFormState from "../../Component/useFormState";
 import FetchBlock from "../../Component/FetchBlock";
 import FetchFlat from "../../Component/FetchFlat";
-import FetchBlk from "../../Component/FetchBlk";
+import FetchName from "../../Component/FetchName";
 
 export default function MaintenanceCreation() {
   const { state: maintenance, setState: setMaintenance } =
@@ -23,7 +23,7 @@ export default function MaintenanceCreation() {
   const { postData, putData } = useApi("maintenance");
   const { data: residentData = [] } = useApi("resident");
   const { data: blockData = [] } = useApi("block");
-  const { data: flatsData = [] } = useApi("flat");
+  const { data: flatData = [] } = useApi("flat");
   const { data: statusData = [] } = useApi("status");
   const { data: catData = [] } = useApi("category");
   // const { blockName } = FetchBlk((blockId = editData?.blockName));
@@ -31,8 +31,9 @@ export default function MaintenanceCreation() {
   // ✅ Pre-fill if editing
   useEffect(() => {
     if (editData) {
-      console.log("editData", editData);
       setMaintenance({ ...editData });
+      // const blk = editData.filter((item) => item.block === editData);
+      // console.log("blk", blk);
     }
   }, [editData]);
 
@@ -61,7 +62,6 @@ export default function MaintenanceCreation() {
   };
 
   console.log("maintenance", maintenance);
-  console.log("flatsData", flatsData);
   // ✅ Validation
   const validate = () => {
     const err = Validation("maintenance", maintenance);
@@ -117,10 +117,6 @@ export default function MaintenanceCreation() {
           </div>
 
           {/* Block */}
-          {/* <div className="form-group">
-            <label>Block</label>
-            <FetchBlock blockId={maintenance.block} />
-          </div> */}
           <div className="form-group">
             <label>Block</label>
             {editData ? (
@@ -136,16 +132,31 @@ export default function MaintenanceCreation() {
                 ))}
               </select>
             ) : (
-              // 🔹 Read-only when editing
-              // 🔹 Dropdown when creating
+              // <FetchBlock blockId={maintenance.block} />
 
-              <FetchBlock blockId={maintenance.block} />
+              <FetchName type="block" id={Number(maintenance.block)} />
             )}
           </div>
           {/* Flat */}
           <div className="form-group">
             <label>Flat</label>
-            <FetchFlat flatId={maintenance.flat} />
+            {editData ? (
+              <select
+                value={maintenance.flat || ""}
+                onChange={(e) => handleChange("flat", Number(e.target.value))}
+              >
+                <option value="">Select Flat</option>
+                {flatData.map((b) => (
+                  <option key={b.flatId} value={b.flatId}>
+                    {b.flatName}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              // <FetchFlat flatId={maintenance.flat} />
+
+              <FetchName type="flat" id={Number(maintenance.flat)} />
+            )}
           </div>
 
           {/* Category */}

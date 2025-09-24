@@ -6,6 +6,10 @@ import Validation from "../../Component/Validation";
 import { toast } from "react-toastify";
 import { notifySuccess } from "../../Component/ToastNotification";
 import useFormState from "../../Component/useFormState";
+import FetchResident from "../../Component/FetchResident";
+import FetchBlock from "../../Component/FetchBlock";
+import FetchFlat from "../../Component/FetchFlat";
+import FetchName from "../../Component/FetchName";
 export default function MaintenanceAssign() {
   const { state: maintenance, setState: setMaintenance } =
     useFormState("maintenance");
@@ -16,7 +20,7 @@ export default function MaintenanceAssign() {
 
   const editData = location.state || null;
   const { postData, putData } = useApi("maintenance");
-  const { data: residents = [] } = useApi("users");
+  // const { data: residents = [] } = useApi("users");
   const { data: blocks = [] } = useApi("block");
   const { data: flats = [] } = useApi("flat");
 
@@ -82,62 +86,45 @@ export default function MaintenanceAssign() {
           {/* Resident */}
           <div className="form-group">
             <label>Resident</label>
-            <select
-              value={maintenance.residentId || ""}
-              onChange={(e) =>
-                handleChange("residentId", Number(e.target.value))
-              }
-              readOnly // 🔹 prevents editing in edit mode
-            >
-              <option value="">Select Resident</option>)
-              {residents.map((res) => (
-                <option key={res.userId} value={res.userId}>
-                  {res.userName}
-                </option>
-              ))}
-            </select>
+            {editData ? (
+              // <FetchResident residentId={maintenance.residentId} />
+
+              <FetchName type="resident" id={maintenance.residentId} />
+            ) : null}
           </div>
 
           {/* Block */}
           <div className="form-group">
             <label>Block</label>
-            <select
-              value={maintenance.block || ""}
-              onChange={(e) => handleChange("block", Number(e.target.value))}
-            >
-              <option value="">Select Block</option>
-              {blocks.map((b) => (
-                <option key={b.blockId} value={b.blockId}>
-                  {b.blockName}
-                </option>
-              ))}
-            </select>
+            {editData ? (
+              // <FetchBlock blockId={Number(maintenance.block)} />
+              <FetchName type="block" id={Number(maintenance.block)} />
+            ) : null}
           </div>
 
           {/* Flat */}
           <div className="form-group">
             <label>Flat</label>
-            <select
-              value={maintenance.flat || ""}
-              onChange={(e) => handleChange("flat", Number(e.target.value))}
-            >
-              <option value="">Select Flat</option>
-              {flats.map((f) => (
-                <option key={f.flatId} value={f.flatId}>
-                  {f.flatName}
-                </option>
-              ))}
-            </select>
+            {editData ? (
+              // <FetchFlat flatId={Number(maintenance.flat)} />
+
+              <FetchName type="flat" id={Number(maintenance.flat)} />
+            ) : null}
           </div>
 
           {/* Category */}
           <div className="form-group">
             <label>Category</label>
-            <input
+            {/* <input
               type="text"
               value={maintenance.category || ""}
               onChange={(e) => handleChange("category", e.target.value)}
-            />
+            /> */}
+            {editData ? (
+              // <FetchFlat flatId={Number(maintenance.flat)} />
+                
+              <FetchName type="category" id={Number(maintenance.category)} />
+            ) : null}
           </div>
 
           {/* Description */}
