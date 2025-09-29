@@ -70,12 +70,13 @@ import useApi from "../../Component/useApi";
 import ReportTable from "../ReportTable";
 import "../../Css/Report.css";
 import FetchName from "../../Component/FetchName";
+import MultipleFetch from "../../Component/MultipleFetch";
 
 export default function MaintenanceReport() {
   const { data: maintenanceData = [] } = useApi("maintenance");
 
   const reportColumns = [
-    { header: "Maintenance ID", accessor: "maintainId" },
+    // { header: "Maintenance ID", accessor: "maintainId" },
 
     {
       header: "Resident",
@@ -102,7 +103,9 @@ export default function MaintenanceReport() {
       header: "Category",
       accessor: "category",
       render: (row) => (
-        <FetchName type="category" id={Number(row.category)} check="report" />
+        // <FetchName type="category" id={Number(row.category)} check="report" />
+
+        <MultipleFetch passIds={row.category} mode="report" />
       ),
     },
 

@@ -6,10 +6,11 @@ import Validation from "../../Component/Validation";
 import { toast } from "react-toastify";
 import { notifySuccess } from "../../Component/ToastNotification";
 import useFormState from "../../Component/useFormState";
-import FetchBlock from "../../Component/FetchBlock";
-import FetchFlat from "../../Component/FetchFlat";
 import FetchName from "../../Component/FetchName";
 
+import Select from "react-select";
+import MultipleFetch from "../../Component/MultipleFetch";
+import ImageUploader from "../../Component/ImageUploader";
 export default function MaintenanceCreation() {
   const { state: maintenance, setState: setMaintenance } =
     useFormState("maintenance");
@@ -18,6 +19,7 @@ export default function MaintenanceCreation() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [selectedOption, setSelectedOption] = useState([]);
   const editData = location.state || null;
 
   const { postData, putData } = useApi("maintenance");
@@ -26,14 +28,11 @@ export default function MaintenanceCreation() {
   const { data: flatData = [] } = useApi("flat");
   const { data: statusData = [] } = useApi("status");
   const { data: catData = [] } = useApi("category");
-  // const { blockName } = FetchBlk((blockId = editData?.blockName));
-  // console.log("blockName", blockName);
+
   // ✅ Pre-fill if editing
   useEffect(() => {
     if (editData) {
       setMaintenance({ ...editData });
-      // const blk = editData.filter((item) => item.block === editData);
-      // console.log("blk", blk);
     }
   }, [editData]);
 
@@ -58,6 +57,21 @@ export default function MaintenanceCreation() {
       residentId: Number(residentId),
       block: selectedResident.blockId,
       flat: selectedResident.flatId,
+    }));
+  };
+  const handleCategoryChange = (selected) => {
+    setSelectedOption(selected);
+    const selectItems = selected.map((item) => item.value);
+    const conSelectItems = selectItems.join(",");
+    setMaintenance((prev) => ({
+      ...prev,
+      category: conSelectItems,
+    }));
+  };
+  const handleRemoveImage = (index) => {
+    setMaintenance((prev) => ({
+      ...prev,
+      attach: prev.attach.filter((_, i) => i !== index), // remove selected image
     }));
   };
 
@@ -102,77 +116,54 @@ export default function MaintenanceCreation() {
         <form onSubmit={handleSubmit}>
           {/* Resident */}
           <div className="form-group">
+            {/* Multiple Select Example (Block Selection) */}
+
             <label>Resident</label>
-            <select
-              value={maintenance.residentId || ""}
-              onChange={(e) => handleResidentChange(e.target.value)}
-            >
-              <option value="">Select Resident</option>
-              {residentData.map((item) => (
-                <option key={item.residentId} value={item.residentId}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
+            {editData ? (
+              <FetchName type="resident" id={Number(maintenance.residentId)} />
+            ) : (
+              <select
+                value={maintenance.residentId || ""}
+                onChange={(e) => handleResidentChange(e.target.value)}
+              >
+                <option value="">Select Resident</option>
+                {residentData.map((item) => (
+                  <option key={item.residentId} value={item.residentId}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           {/* Block */}
           <div className="form-group">
             <label>Block</label>
-            {editData ? (
-              <select
-                value={maintenance.block || ""}
-                onChange={(e) => handleChange("block", Number(e.target.value))}
-              >
-                <option value="">Select Block</option>
-                {blockData.map((b) => (
-                  <option key={b.blockId} value={b.blockId}>
-                    {b.blockName}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              // <FetchBlock blockId={maintenance.block} />
-
-              <FetchName type="block" id={Number(maintenance.block)} />
-            )}
+            <FetchName type="block" id={Number(maintenance.block)} />
           </div>
+
           {/* Flat */}
           <div className="form-group">
             <label>Flat</label>
-            {editData ? (
-              <select
-                value={maintenance.flat || ""}
-                onChange={(e) => handleChange("flat", Number(e.target.value))}
-              >
-                <option value="">Select Flat</option>
-                {flatData.map((b) => (
-                  <option key={b.flatId} value={b.flatId}>
-                    {b.flatName}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              // <FetchFlat flatId={maintenance.flat} />
-
-              <FetchName type="flat" id={Number(maintenance.flat)} />
-            )}
+            <FetchName type="flat" id={Number(maintenance.flat)} />
           </div>
 
           {/* Category */}
           <div className="form-group">
             <label>Category</label>
-            <select
-              value={maintenance.category || ""}
-              onChange={(e) => handleChange("category", e.target.value)}
-            >
-              <option value="">Select category</option>
-              {catData.map((c) => (
-                <option key={c.catId} value={c.catId}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            {editData ? (
+              <MultipleFetch passIds={maintenance.category} mode="form" />
+            ) : (
+              <Select
+                isMulti
+                options={catData.map((c) => ({
+                  value: c.catId,
+                  label: c.name,
+                }))}
+                value={selectedOption}
+                onChange={handleCategoryChange}
+              />
+            )}
           </div>
 
           {/* Status */}
@@ -192,14 +183,74 @@ export default function MaintenanceCreation() {
           </div>
 
           {/* Attachment */}
+          {/*           
           <div className="form-group">
             <label>Attachment</label>
             <input
               type="file"
+              multiple
               accept="image/*"
-              onChange={(e) => handleChange("attach", e.target.files[0])}
+              onChange={(e) =>
+                handleChange("attach", Array.from(e.target.files))
+              }
             />
           </div>
+
+          {maintenance.attach && maintenance.attach.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                marginTop: "10px",
+                flexWrap: "wrap",
+              }}
+            >
+              {maintenance.attach.map((file, index) => (
+                <div
+                  key={index}
+                  style={{ position: "relative", display: "inline-block" }}
+                >
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={`preview-${index}`}
+                    width="100"
+                    height="100"
+                    style={{ objectFit: "cover", borderRadius: "8px" }}
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index)}
+                    style={{
+                      position: "absolute",
+                      top: "-8px",
+                      right: "-8px",
+                      background: "red",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "50%",
+                      cursor: "pointer",
+                      width: "20px",
+                      height: "20px",
+                      fontSize: "12px",
+                      lineHeight: "20px",
+                      textAlign: "center",
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )} */}
+
+          <ImageUploader
+            label="Attachment"
+            images={maintenance.attach}
+            onChange={(newImages) =>
+              setMaintenance((prev) => ({ ...prev, attach: newImages }))
+            }
+          />
 
           {/* Description */}
           <div className="form-group">
@@ -211,29 +262,34 @@ export default function MaintenanceCreation() {
           </div>
 
           {/* Rating */}
-          <div className="form-group">
-            <label>Rating</label>
-            <select
-              value={maintenance.rating || ""}
-              onChange={(e) => handleChange("rating", e.target.value)}
-            >
-              <option value="">Select Rating</option>
-              <option value="1">⭐</option>
-              <option value="2">⭐⭐</option>
-              <option value="3">⭐⭐⭐</option>
-              <option value="4">⭐⭐⭐⭐</option>
-              <option value="5">⭐⭐⭐⭐⭐</option>
-            </select>
-          </div>
+
+          {editData ? (
+            <div className="form-group">
+              <label>Rating</label>
+              <select
+                value={maintenance.rating || ""}
+                onChange={(e) => handleChange("rating", e.target.value)}
+              >
+                <option value="">Select Rating</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+              </select>
+            </div>
+          ) : null}
 
           {/* Feedback */}
-          <div className="form-group">
-            <label>Feedback</label>
-            <textarea
-              value={maintenance.feedBack || ""}
-              onChange={(e) => handleChange("feedBack", e.target.value)}
-            />
-          </div>
+          {editData ? (
+            <div className="form-group">
+              <label>Feedback</label>
+              <textarea
+                value={maintenance.feedBack || ""}
+                onChange={(e) => handleChange("feedBack", e.target.value)}
+              />
+            </div>
+          ) : null}
 
           <button type="submit">{editData ? "Update" : "Submit"}</button>
         </form>

@@ -54,6 +54,8 @@ import VisitorCreation from "../Pages/Visitor/VisitorCreation.js";
 import VisitorReport from "../Pages/Visitor/VisitorReport.js";
 import VisitorLogCreation from "../Pages/VisitorLogs/VisitorLogCreation.js";
 import VisitorLogReport from "../Pages/VisitorLogs/VisitorLogReport.js";
+import VisitorPurposeCreation from "../Pages/VisitorPurpose/VisitorPurposeCreation.js";
+import VisitorPurposeReport from "../Pages/VisitorPurpose/VisitorPurposeReport.js";
 import StatusCreation from "../Pages/Status/StatusCreation.js";
 import StatusReport from "../Pages/Status/StatusReport.js";
 
@@ -66,6 +68,7 @@ import ObjectDetection from "../ObjectDetection.js";
 import Masters from "../Pages/Master/Masters.js";
 import IsAuthenticate from "./IsAuthenticate.js";
 import { useContext } from "react";
+
 export default function RoutesPath() {
   const { user } = useContext(UserContext);
   return (
@@ -150,6 +153,14 @@ export default function RoutesPath() {
               <Route path="/visitorrep" element={<VisitorReport />} />
               <Route path="/visitorlog" element={<VisitorLogCreation />} />
               <Route path="/visitorlogrep" element={<VisitorLogReport />} />
+              <Route
+                path="/visitorpurpose"
+                element={<VisitorPurposeCreation />}
+              />
+              <Route
+                path="/visitorpurposerep"
+                element={<VisitorPurposeReport />}
+              />
               <Route path="/user" element={<UserCreations />} />
               <Route path="/userrep" element={<UserReport />} />
               <Route path="/master" element={<Masters />} />

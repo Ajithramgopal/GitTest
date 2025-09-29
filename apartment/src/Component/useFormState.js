@@ -149,7 +149,7 @@ export default function useFormState(type, options = {}) {
         flat: null,
         category: null,
         description: null,
-        attach: null,
+        attach: [],
         status: null,
         priority: null,
         assignedTo: null,
@@ -334,7 +334,19 @@ export default function useFormState(type, options = {}) {
         organizationId: null,
       };
       break;
-
+    case "visitorpurpose":
+      initialState = {
+        purposeId: null,
+        purpose: null,
+        notes: null,
+        userId: null,
+        createdBy: null,
+        createdDate: null,
+        updatedBy: null,
+        updatedDate: null,
+        organizationId: null,
+      };
+      break;
     default:
       initialState = {};
       break;

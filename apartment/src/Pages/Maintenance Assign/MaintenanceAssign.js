@@ -6,10 +6,8 @@ import Validation from "../../Component/Validation";
 import { toast } from "react-toastify";
 import { notifySuccess } from "../../Component/ToastNotification";
 import useFormState from "../../Component/useFormState";
-import FetchResident from "../../Component/FetchResident";
-import FetchBlock from "../../Component/FetchBlock";
-import FetchFlat from "../../Component/FetchFlat";
 import FetchName from "../../Component/FetchName";
+
 export default function MaintenanceAssign() {
   const { state: maintenance, setState: setMaintenance } =
     useFormState("maintenance");
@@ -101,7 +99,6 @@ export default function MaintenanceAssign() {
               <FetchName type="block" id={Number(maintenance.block)} />
             ) : null}
           </div>
-
           {/* Flat */}
           <div className="form-group">
             <label>Flat</label>
@@ -122,7 +119,7 @@ export default function MaintenanceAssign() {
             /> */}
             {editData ? (
               // <FetchFlat flatId={Number(maintenance.flat)} />
-                
+
               <FetchName type="category" id={Number(maintenance.category)} />
             ) : null}
           </div>
