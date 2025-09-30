@@ -28,6 +28,9 @@ export default function Masters() {
         <li>
           <Link to="/visitorpurposerep">Purpose</Link>
         </li>
+        <li>
+          <Link to="/maintenancepayrep">Maintenance Pay</Link>
+        </li>
       </ul>
     </div>
   );

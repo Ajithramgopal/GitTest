@@ -34,12 +34,16 @@ import FacilityBookingCreation from "../Pages/FacilityBooking/FacilityBookingCre
 import FacilityBookingReport from "../Pages/FacilityBooking/FacilityBookingReport.js";
 import FlatCreation from "../Pages/Flat/FlatCreation.js";
 import FlatReport from "../Pages/Flat/FlatReport.js";
+import GateEntryCreation from "../Pages/GateEntry/GateEntryCreation.js";
+import GateEntryReport from "../Pages/GateEntry/GateEntryReport.js";
 import MaintenanceCreation from "../Pages/Maintenance/MaintenanceCreation.js";
 import MaintenanceReport from "../Pages/Maintenance/MaintenanceReport.js";
 import MaintenanceAssign from "../Pages/Maintenance Assign/MaintenanceAssign.js";
 import MaintenanceAssignReport from "../Pages/Maintenance Assign/MaintenanceAssignReport.js";
 import MaintenanceDueCreation from "../Pages/Due/MaintenanceDueCreation.js";
 import MaintenanceDueReport from "../Pages/Due/MaintenanceDueReport.js";
+import MaintenancePayTypeCreation from "../Pages/MaintenancePayType/MaintenancePayTypeCreation.js";
+import MaintenancePayTypeReport from "../Pages/MaintenancePayType/MaintenancePayTypeReport.js";
 import OrganizationCreation from "../Pages/Org/OrganizationCreation.js";
 import OrganizationReport from "../Pages/Org/OrganizationReport.js";
 import PaymentCreation from "../Pages/Payment/PaymentCreation.js";
@@ -63,6 +67,7 @@ import ExcelComponent from "../ExcelComponent.js";
 import OrderTable from "../OrderTable.js";
 import User from "../User.js";
 import ReportData from "../ReportData.js";
+import Scanner from "../Scanner.js";
 
 import ObjectDetection from "../ObjectDetection.js";
 import Masters from "../Pages/Master/Masters.js";
@@ -99,7 +104,6 @@ export default function RoutesPath() {
               <Route path="/use" element={<UserForm />} />
               <Route path="/toas" element={<ToastNotification />} />
               <Route path="/or" element={<OrderTable />} />
-
               <Route path="/announce" element={<AnnounceCreation />} />
               <Route path="/announcerep" element={<AnnouncementReport />} />
               <Route path="/block" element={<BlockCreation />} />
@@ -120,8 +124,15 @@ export default function RoutesPath() {
               />
               <Route path="/flat" element={<FlatCreation />} />
               <Route path="/flatrep" element={<FlatReport />} />
-              <Route path="/maintenance" element={<MaintenanceCreation />} />
-              <Route path="/maintenancerep" element={<MaintenanceReport />} />
+              <Route path="/flat" element={<FlatCreation />} />
+              <Route path="/flatrep" element={<FlatReport />} />
+              <Route path="/gateentry" element={<GateEntryCreation />} />
+              <Route path="/gateentryrep" element={<GateEntryReport />} />{" "}
+              <Route path="/maintenance" element={<MaintenanceAssign />} />
+              <Route
+                path="/maintenancerep"
+                element={<MaintenanceAssignReport />}
+              />
               <Route
                 path="/maintenanceassign"
                 element={<MaintenanceAssign />}
@@ -130,7 +141,6 @@ export default function RoutesPath() {
                 path="/maintenanceassignrep"
                 element={<MaintenanceAssignReport />}
               />
-
               <Route
                 path="/maintenancedue"
                 element={<MaintenanceDueCreation />}
@@ -138,6 +148,14 @@ export default function RoutesPath() {
               <Route
                 path="/maintenanceduerep"
                 element={<MaintenanceDueReport />}
+              />
+              <Route
+                path="/maintenancepay"
+                element={<MaintenancePayTypeCreation />}
+              />
+              <Route
+                path="/maintenancepayrep"
+                element={<MaintenancePayTypeReport />}
               />
               <Route path="/org" element={<OrganizationCreation />} />
               <Route path="/orgrep" element={<OrganizationReport />} />
@@ -164,11 +182,11 @@ export default function RoutesPath() {
               <Route path="/user" element={<UserCreations />} />
               <Route path="/userrep" element={<UserReport />} />
               <Route path="/master" element={<Masters />} />
-
               <Route path="/excel" element={<ExcelComponent />} />
               <Route path="/us" element={<User />} />
               <Route path="/rep" element={<ReportData />} />
               <Route path="/ob" element={<ObjectDetection />} />
+              <Route path="/sc" element={<Scanner />} />
             </Routes>
           </div>
         </div>

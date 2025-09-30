@@ -53,6 +53,9 @@ const Sidebar = () => {
         <Link to="/visitorlogrep" style={linkStyle}>
           Visitorlog
         </Link>
+        <Link to="/gateentryrep" style={linkStyle}>
+          Gate Entry
+        </Link>
         <Link to="/master" style={linkStyle}>
           Master
         </Link>

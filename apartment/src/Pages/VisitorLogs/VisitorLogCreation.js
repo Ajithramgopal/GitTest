@@ -18,6 +18,7 @@ export default function VisitorLogCreation() {
   const EditData = location.state || null;
   const { putData, postData } = useApi("visitlog");
   const { data: visitorData = [] } = useApi("visitor");
+  const { data: visitorPurpose = [] } = useApi("visitorpurpose");
   const { getLocalDateTime } = GetDate();
   const { state: visitor, setState: setVisitor } = useFormState("visitor");
 
@@ -34,6 +35,13 @@ export default function VisitorLogCreation() {
     setState((prev) => ({
       ...prev,
       [key]: value,
+    }));
+  };
+
+  const handleChangeVisitor = (value) => {
+    console.log("value", value);
+    setState((prev) => ({
+      ...prev,
     }));
   };
   // ✅ Validation
@@ -70,10 +78,6 @@ export default function VisitorLogCreation() {
     }
   };
 
-  const handleVisitor = (value) => {
-    handleChange("visitorId", value);
-    console.log("value", value);
-  };
   return (
     <>
       <h1>{EditData ? "Edit Visitor Log" : "Create Visitor Log"}</h1>
@@ -85,13 +89,13 @@ export default function VisitorLogCreation() {
             <select
               value={state.visitorId || ""}
               onChange={
-                (e) => handleVisitor(e.target.value)
+                (e) => handleChangeVisitor(e.target.value)
                 // handleVisitor("visitorId", Number(e.target.value))
               }
             >
               <option value="">-- Select Visitor --</option>
-              {visitorData.map((item) => (
-                <option key={item.visitorId} value={item.visitorId}>
+              {visitorData.map((item, index) => (
+                <option key={index} value={item.visitorId}>
                   {item.name} ({item.mobile})
                 </option>
               ))}

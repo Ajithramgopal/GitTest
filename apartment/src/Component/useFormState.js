@@ -181,7 +181,20 @@ export default function useFormState(type, options = {}) {
         organizationId: null,
       };
       break;
-
+    case "maintenancePayType":
+      initialState = {
+        typeId: null,
+        flatType: null,
+        sqft: null,
+        amount: null,
+        userId: null,
+        createdBy: null,
+        createdDate: null,
+        updatedBy: null,
+        updatedDate: null,
+        organizationId: null,
+      };
+      break;
     case "org":
       initialState = {
         orgId: null,

@@ -116,10 +116,19 @@ export default function MaintenanceCreation() {
         <form onSubmit={handleSubmit}>
           {/* Resident */}
           <div className="form-group">
-            {/* Multiple Select Example (Block Selection) */}
-
-            <label>Resident</label>
-            {editData ? (
+            <label>Resident</label>{" "}
+            <select
+              value={maintenance.residentId || ""}
+              onChange={(e) => handleResidentChange(e.target.value)}
+            >
+              <option value="">Select Resident</option>
+              {residentData.map((item) => (
+                <option key={item.residentId} value={item.residentId}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            {/* {editData ? (
               <FetchName type="resident" id={Number(maintenance.residentId)} />
             ) : (
               <select
@@ -133,7 +142,7 @@ export default function MaintenanceCreation() {
                   </option>
                 ))}
               </select>
-            )}
+            )} */}
           </div>
 
           {/* Block */}

@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import { notifySuccess } from "../../Component/ToastNotification";
 import useFormState from "../../Component/useFormState";
 import QRCode from "react-qr-code";
+import FetchName from "../../Component/FetchName";
+import SelectList from "../../Component/SelectList";
+import formatDateTimeLocal from "../../Component/formatDateTimeLocal";
 
 export default function VisitorCreation() {
   const { state: visitor, setState: setVisitor } = useFormState("visitor");
@@ -20,11 +23,15 @@ export default function VisitorCreation() {
   const editData = location.state || null;
   const { postData, putData } = useApi("visitor");
 
+  const { data: visitorPurpose = [] } = useApi("visitorpurpose");
   // ✅ Prefill data for Edit
   useEffect(() => {
     if (editData) {
       setVisitor({
         ...editData,
+        expectedTime: formatDateTimeLocal(editData.expectedTime),
+        entryTime: formatDateTimeLocal(editData.entryTime),
+        exitTime: formatDateTimeLocal(editData.exitTime),
       });
     }
   }, [editData]);
@@ -71,6 +78,9 @@ export default function VisitorCreation() {
     }
   };
 
+  console.log("visitor", visitor);
+  console.log("editData", editData);
+
   return (
     <>
       <h1>{editData ? "Edit Visitor" : "Add Visitor"}</h1>
@@ -101,13 +111,21 @@ export default function VisitorCreation() {
           {/* Purpose */}
           <div className="form-group">
             <label>Purpose</label>
-            <input
-              type="text"
-              value={visitor.purpose || ""}
-              onChange={(e) => handleChange("purpose", e.target.value)}
-            />
+            {editData ? (
+              <FetchName type="visitorpurpose" id={Number(visitor.purpose)} />
+            ) : (
+              <select
+                value={visitor.purpose}
+                onChange={(e) => handleChange("purpose", e.target.value)}
+              >
+                {visitorPurpose.map((item, index) => (
+                  <option key={index} value={item.purposeId}>
+                    {item.purpose}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
-
           {/* Expected Time */}
           <div className="form-group">
             <label>Expected Time</label>

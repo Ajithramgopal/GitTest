@@ -15,6 +15,7 @@ export default function FetchName({ type, id, check }) {
     if (type === "block") return i.blockId === id;
     if (type === "flat") return i.flatId === id;
     if (type === "category") return i.catId === id;
+    if (type === "visitorpurpose") return i.purposeId === id;
     return false;
   });
 
@@ -25,6 +26,7 @@ export default function FetchName({ type, id, check }) {
     if (type === "block") name = item.blockName;
     if (type === "flat") name = item.flatName;
     if (type === "category") name = item.name;
+    if (type === "visitorpurpose") name = item.purpose;
   }
 
   // ✅ Conditional rendering based on "check"
